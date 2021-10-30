@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Окт 30 2021 г., 11:57
+-- Время создания: Окт 30 2021 г., 13:20
 -- Версия сервера: 8.0.24
 -- Версия PHP: 7.1.33
 
@@ -41,7 +41,8 @@ CREATE TABLE `dish` (
 --
 
 INSERT INTO `dish` (`dish_ID`, `name`, `image`, `description`, `price`, `categoryID_D`) VALUES
-(1, 'test name', 'url', 'chto?', 1000, 1);
+(1, 'test name', 'url', 'chto?', 1000, 1),
+(2, 'test 2 element', 'url', 'chto?', 1001, 1);
 
 -- --------------------------------------------------------
 
@@ -145,7 +146,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT для таблицы `dish`
 --
 ALTER TABLE `dish`
-  MODIFY `dish_ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `dish_ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `institution`
