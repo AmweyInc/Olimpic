@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Окт 30 2021 г., 13:20
+-- Время создания: Окт 30 2021 г., 13:59
 -- Версия сервера: 8.0.24
 -- Версия PHP: 7.1.33
 
@@ -41,8 +41,9 @@ CREATE TABLE `dish` (
 --
 
 INSERT INTO `dish` (`dish_ID`, `name`, `image`, `description`, `price`, `categoryID_D`) VALUES
-(1, 'test name', 'url', 'chto?', 1000, 1),
-(2, 'test 2 element', 'url', 'chto?', 1001, 1);
+(3, 'Dish one', 'url', 'desc', 500, 3),
+(4, 'Name two', 'url', 'description', 1111, 3),
+(5, 'Test dish', 'url', 'd', 123, 3);
 
 -- --------------------------------------------------------
 
@@ -71,16 +72,16 @@ INSERT INTO `institution` (`institution_ID`, `name`, `description`) VALUES
 
 CREATE TABLE `menu category` (
   `category_ID` bigint UNSIGNED NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `dishID_M` bigint UNSIGNED DEFAULT NULL
+  `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Дамп данных таблицы `menu category`
 --
 
-INSERT INTO `menu category` (`category_ID`, `name`, `dishID_M`) VALUES
-(1, 'Category', NULL);
+INSERT INTO `menu category` (`category_ID`, `name`) VALUES
+(3, 'Test Category'),
+(4, 'Category Two');
 
 -- --------------------------------------------------------
 
@@ -93,15 +94,55 @@ CREATE TABLE `orders` (
   `sum` int NOT NULL,
   `phone` varchar(13) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `dishID_O` bigint UNSIGNED NOT NULL
+  `institutionOrdersID` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Дамп данных таблицы `orders`
 --
 
-INSERT INTO `orders` (`order_ID`, `sum`, `phone`, `name`, `dishID_O`) VALUES
-(1, 123, '+380688888888', 'Test Name User', 1);
+INSERT INTO `orders` (`order_ID`, `sum`, `phone`, `name`, `institutionOrdersID`) VALUES
+(4, 1234, '+380688888888', 'Test Order One', 1),
+(5, 12111, '+380688888881', 'Test Order Two', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `storecategory`
+--
+
+CREATE TABLE `storecategory` (
+  `storeID` bigint UNSIGNED NOT NULL,
+  `categoryStoreID` bigint UNSIGNED NOT NULL,
+  `institurionStoreID` bigint UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Дамп данных таблицы `storecategory`
+--
+
+INSERT INTO `storecategory` (`storeID`, `categoryStoreID`, `institurionStoreID`) VALUES
+(1, 3, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `storedish`
+--
+
+CREATE TABLE `storedish` (
+  `storeDishID` bigint UNSIGNED NOT NULL,
+  `orderStoreID` bigint UNSIGNED NOT NULL,
+  `dishStoreID` bigint UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Дамп данных таблицы `storedish`
+--
+
+INSERT INTO `storedish` (`storeDishID`, `orderStoreID`, `dishStoreID`) VALUES
+(2, 4, 4),
+(1, 4, 5);
 
 --
 -- Индексы сохранённых таблиц
@@ -127,8 +168,7 @@ ALTER TABLE `institution`
 --
 ALTER TABLE `menu category`
   ADD PRIMARY KEY (`category_ID`),
-  ADD UNIQUE KEY `category_ID` (`category_ID`),
-  ADD KEY `dishID` (`dishID_M`);
+  ADD UNIQUE KEY `category_ID` (`category_ID`);
 
 --
 -- Индексы таблицы `orders`
@@ -136,7 +176,24 @@ ALTER TABLE `menu category`
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_ID`),
   ADD UNIQUE KEY `order_ID` (`order_ID`),
-  ADD KEY `dishID` (`dishID_O`);
+  ADD KEY `institutionOrdersID` (`institutionOrdersID`);
+
+--
+-- Индексы таблицы `storecategory`
+--
+ALTER TABLE `storecategory`
+  ADD UNIQUE KEY `storeID` (`storeID`),
+  ADD KEY `categoryStoreID` (`categoryStoreID`),
+  ADD KEY `institurionStoreID` (`institurionStoreID`);
+
+--
+-- Индексы таблицы `storedish`
+--
+ALTER TABLE `storedish`
+  ADD PRIMARY KEY (`storeDishID`),
+  ADD UNIQUE KEY `storeDishID` (`storeDishID`),
+  ADD KEY `orderStoreID` (`orderStoreID`,`dishStoreID`),
+  ADD KEY `dishStoreID` (`dishStoreID`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -146,7 +203,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT для таблицы `dish`
 --
 ALTER TABLE `dish`
-  MODIFY `dish_ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `dish_ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `institution`
@@ -158,13 +215,25 @@ ALTER TABLE `institution`
 -- AUTO_INCREMENT для таблицы `menu category`
 --
 ALTER TABLE `menu category`
-  MODIFY `category_ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `category_ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `order_ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT для таблицы `storecategory`
+--
+ALTER TABLE `storecategory`
+  MODIFY `storeID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT для таблицы `storedish`
+--
+ALTER TABLE `storedish`
+  MODIFY `storeDishID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -177,16 +246,24 @@ ALTER TABLE `dish`
   ADD CONSTRAINT `dish_ibfk_1` FOREIGN KEY (`categoryID_D`) REFERENCES `menu category` (`category_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
--- Ограничения внешнего ключа таблицы `menu category`
---
-ALTER TABLE `menu category`
-  ADD CONSTRAINT `menu category_ibfk_1` FOREIGN KEY (`dishID_M`) REFERENCES `dish` (`dish_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
 -- Ограничения внешнего ключа таблицы `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`dishID_O`) REFERENCES `dish` (`dish_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`institutionOrdersID`) REFERENCES `institution` (`institution_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `storecategory`
+--
+ALTER TABLE `storecategory`
+  ADD CONSTRAINT `storecategory_ibfk_1` FOREIGN KEY (`categoryStoreID`) REFERENCES `menu category` (`category_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `storecategory_ibfk_2` FOREIGN KEY (`institurionStoreID`) REFERENCES `institution` (`institution_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `storedish`
+--
+ALTER TABLE `storedish`
+  ADD CONSTRAINT `storedish_ibfk_1` FOREIGN KEY (`dishStoreID`) REFERENCES `dish` (`dish_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `storedish_ibfk_2` FOREIGN KEY (`orderStoreID`) REFERENCES `orders` (`order_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
