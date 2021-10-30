@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Окт 30 2021 г., 13:59
+-- Время создания: Окт 30 2021 г., 15:26
 -- Версия сервера: 8.0.24
 -- Версия PHP: 7.1.33
 
@@ -103,7 +103,12 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`order_ID`, `sum`, `phone`, `name`, `institutionOrdersID`) VALUES
 (4, 1234, '+380688888888', 'Test Order One', 1),
-(5, 12111, '+380688888881', 'Test Order Two', 1);
+(5, 12111, '+380688888881', 'Test Order Two', 1),
+(19, 38123123, '30', '38123123', 1),
+(20, 30, '38123123', 'Userqqqqqq', 1),
+(21, 30, '38123123', 'User', 1),
+(22, 30, '38123123', 'User', 1),
+(23, 30, '38123123', 'PachomBanany????', 1);
 
 -- --------------------------------------------------------
 
@@ -221,7 +226,7 @@ ALTER TABLE `menu category`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `order_ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT для таблицы `storecategory`
